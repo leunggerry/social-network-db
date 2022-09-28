@@ -2,7 +2,7 @@
  * Import libraries
  */
 
-const { User } = require("../models");
+const { User, Thought } = require("../models");
 
 const userController = {
   //Functions for the methods go here
@@ -83,9 +83,83 @@ const userController = {
           res.status(404).json({ message: "No user found with this ID" });
           return;
         }
-        res.json(dbUserData);
+
+        //delete user thoughts
+        return Thought.deleteMany({ username: dbUserData.username });
+      })
+      .then((dbThoughtData) => {
+        //return number of thoughts deleted
+        res.json(dbThoughtData);
       })
       .catch((err) => res.status(400).json(err));
+  },
+
+  // Add a friend
+  /**
+   * @name addFriend
+   *
+   * @param {*} param0
+   * @param {*} res
+   */
+  addFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $push: { friends: params.friendId } },
+      { new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with id" });
+          return;
+        }
+        return User.findOneAndUpdate(
+          { _id: params.friendId },
+          { $push: { friends: params.userId } },
+          { new: true }
+        );
+      })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No friend found with id" });
+          return;
+        }
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
+  },
+
+  /**
+   * @name removeFriend
+   *
+   * @param {*} param0
+   * @param {*} res
+   */
+  removeFriend({ params }, res) {
+    User.findOneAndUpdate(
+      { _id: params.userId },
+      { $pull: { friends: params.friendId } },
+      { new: true }
+    )
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with id" });
+          return;
+        }
+        return User.findOneAndUpdate(
+          { _id: params.friendId },
+          { $pull: { friends: params.userId } },
+          { new: true }
+        );
+      })
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No friend found with id" });
+          return;
+        }
+
+        res.json(dbUserData);
+      })
+      .catch((err) => res.json(err));
   },
 };
 

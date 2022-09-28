@@ -51,7 +51,6 @@ const ThoughtSchema = new Schema(
     username: {
       type: String,
       required: true,
-      //ref: "User",
     },
     reactions: [ReactionSchema],
   },
@@ -61,6 +60,7 @@ const ThoughtSchema = new Schema(
       getters: true, // tell mongoose to use specified getters
       virtuals: true,
     },
+    id: false,
   }
 );
 
