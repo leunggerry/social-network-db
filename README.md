@@ -16,6 +16,5 @@ npm install
 ## Questions
 If you have any questions regarding the status of this project or any concerns please refer to my GitHub repo:
 [leunggerry](https://github.com/leunggerry)
-For more information you can contact:
-[leung.gerry@gmail.com](mailto:leung.gerry@gmail.com)
+
 
