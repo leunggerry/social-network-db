@@ -36,6 +36,7 @@ const UserSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+    //_id: false, // id is false b/c this virtual that Mongoose returns, and don't need
   }
 );
 
