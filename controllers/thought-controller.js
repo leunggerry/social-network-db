@@ -28,7 +28,7 @@ const thoughtController = {
    * @param {*} res
    */
   getThoughtById({ params }, res) {
-    Thought.findById(params.id)
+    Thought.findById(params.thoughtId)
       .then((dbThoughtData) => {
         res.json(dbThoughtData);
       })
@@ -92,7 +92,7 @@ const thoughtController = {
           return;
         }
         return User.findOneAndUpdate(
-          { _id: re.userId }, // get the UserId
+          { username: deleteThought.username }, // get the UserId
           { $pull: { thoughts: params.thoughtId } }, // remove the thoughtId from the userId's thoughts
           { new: true }
         );
@@ -138,7 +138,7 @@ const thoughtController = {
   deleteReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $pull: { reactions: { _id: params.reactionId } } },
+      { $pull: { reactions: { reactionId: params.reactionId } } },
       { new: true }
     )
       .then((dbThoughtData) => {

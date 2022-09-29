@@ -29,6 +29,7 @@ const ReactionSchema = new Schema(
   },
   // add shcema options
   {
+    _id: false,
     toJSON: {
       getters: true, // tell mongoose to use specified getters
     },
@@ -60,7 +61,7 @@ const ThoughtSchema = new Schema(
       getters: true, // tell mongoose to use specified getters
       virtuals: true,
     },
-    id: false,
+    //_id: false,
   }
 );
 
